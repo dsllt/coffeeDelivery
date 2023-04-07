@@ -3,6 +3,8 @@ import styled from 'styled-components'
 export const CheckoutContainer = styled.div`
   display: flex;
   gap: 3.2rem;
+  margin-top: 4rem;
+  margin-bottom: 24rem;
 `
 
 export const BaseSideDiv = styled.div`

@@ -1,7 +1,13 @@
 import styled, { css } from 'styled-components'
 import { defaultTheme } from '../../styles/themes/default'
 
-export type MiniIconVariant = 'cart' | 'timer' | 'package' | 'coffee'
+export type MiniIconVariant =
+  | 'cart'
+  | 'timer'
+  | 'package'
+  | 'coffee'
+  | 'location'
+  | 'money'
 
 interface MiniIconProps {
   variant: MiniIconVariant
@@ -12,6 +18,8 @@ const miniIconVariants = {
   timer: defaultTheme['yellow-default'],
   package: defaultTheme['base-text'],
   coffee: defaultTheme['purple-dark'],
+  location: defaultTheme['purple-default'],
+  money: defaultTheme['yellow-dark'],
 }
 
 export const MiniIconContainer = styled.div<MiniIconProps>`

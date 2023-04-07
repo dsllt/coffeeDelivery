@@ -1,4 +1,11 @@
-import { Coffee, Package, ShoppingCart, Timer } from 'phosphor-react'
+import {
+  Coffee,
+  CurrencyDollar,
+  MapPin,
+  Package,
+  ShoppingCart,
+  Timer,
+} from 'phosphor-react'
 import { MiniIconContainer, MiniIconVariant } from './styles'
 
 interface MiniIconProps {
@@ -14,6 +21,10 @@ function defineIcon(variant) {
     return <Coffee size={16} weight="fill" />
   } else if (variant === 'package') {
     return <Package size={16} weight="fill" />
+  } else if (variant === 'location') {
+    return <MapPin size={16} weight="fill" />
+  } else if (variant === 'money') {
+    return <CurrencyDollar size={16} weight="fill" />
   }
 }
 
