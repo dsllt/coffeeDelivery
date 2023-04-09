@@ -9,6 +9,7 @@ import {
 import HomeImg from '../../assets/HomeImage.png'
 import { MiniIcon } from '../../components/MiniIcon'
 import { Card } from '../../components/Card'
+import { coffeeList } from '../../assets/coffeeList'
 
 export function Home() {
   return (
@@ -46,10 +47,9 @@ export function Home() {
       <CoffeeMenu>
         <h1>Nossos cafés</h1>
         <CoffeeList>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          {coffeeList.map((item, index) => (
+            <Card coffeeItem={item} key={index} />
+          ))}
         </CoffeeList>
       </CoffeeMenu>
     </HomeContainer>
