@@ -24,9 +24,34 @@ export const LocationContainer = styled.div`
   color: ${(props) => props.theme['purple-dark']};
 `
 export const CartButton = styled.button`
-  border: none;
   background: ${(props) => props.theme['yellow-light']};
   color: ${(props) => props.theme['yellow-dark']};
-  padding: 8px;
+  border: none;
   border-radius: 6px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  position: relative;
+
+  > div {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 2rem;
+    height: 2rem;
+
+    background: ${(props) => props.theme['yellow-dark']};
+    color: ${(props) => props.theme.white};
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 130%;
+  }
 `
