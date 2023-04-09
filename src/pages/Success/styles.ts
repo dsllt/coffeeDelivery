@@ -29,8 +29,17 @@ export const OrderConfirmation = styled.div`
   padding: 4rem;
   margin-top: 4rem;
 
-  background: linear-gradient(white, white) padding-box,
-    linear-gradient(270deg, #8047f8, #dbac2c) border-box;
+  background: linear-gradient(
+        ${(props) => props.theme['background-default']},
+        ${(props) => props.theme['background-default']}
+      )
+      padding-box,
+    linear-gradient(
+        270deg,
+        ${(props) => props.theme['purple-default']},
+        ${(props) => props.theme['yellow-default']}
+      )
+      border-box;
   border-radius: 6px 36px;
   border: 1px solid transparent;
 `

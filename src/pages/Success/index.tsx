@@ -1,11 +1,4 @@
-import {
-  DeliveryInfo,
-  DeliveryLocation,
-  DeliveryPayment,
-  DeliveryTime,
-  OrderConfirmation,
-  SuccessContainer,
-} from './styles'
+import { DeliveryInfo, OrderConfirmation, SuccessContainer } from './styles'
 import successIlustration from '../../assets/SuccessIllustration.png'
 import { MiniIcon } from '../../components/MiniIcon'
 
