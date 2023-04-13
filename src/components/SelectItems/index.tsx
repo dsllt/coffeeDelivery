@@ -1,14 +1,30 @@
 import { SelectItemsButton, SelectItemsContainer } from './styles'
 import { Minus, Plus } from 'phosphor-react'
 
-export function SelectItems() {
+interface ItemsProps {
+  addItem: () => void
+  deleteItem: () => void
+  numberOfItems: number
+}
+
+export function SelectItems({
+  addItem,
+  deleteItem,
+  numberOfItems,
+}: ItemsProps) {
+  function handleAddItem() {
+    addItem()
+  }
+  function handleDeleteItem() {
+    deleteItem()
+  }
   return (
     <SelectItemsContainer>
       <SelectItemsButton type="button">
-        <Minus size={14} weight="bold" />
+        <Minus size={14} weight="bold" onClick={handleDeleteItem} />
       </SelectItemsButton>
-      <input type="number" value={0} />
-      <SelectItemsButton type="button">
+      <input type="number" value={numberOfItems} />
+      <SelectItemsButton type="button" onClick={handleAddItem}>
         <Plus size={14} weight="bold" />
       </SelectItemsButton>
     </SelectItemsContainer>

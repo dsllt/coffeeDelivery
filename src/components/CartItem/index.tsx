@@ -1,23 +1,65 @@
 import { RemoveButton } from '../RemoveButton'
 import { SelectItems } from '../SelectItems'
-import { CartItemContainer, ItemDescription, ItemInfo, ItemSelection } from './styles'
+import {
+  CartItemContainer,
+  ItemDescription,
+  ItemInfo,
+  ItemSelection,
+} from './styles'
 
-import cafeEspresso from '../../assets/Expresso.png'
+import { useContext, useState } from 'react'
+import { Cart, CartContext } from '../../contexts/CartContext'
 
-export function CartItem() {
-  return (
-    <CartItemContainer>
-      <img src={cafeEspresso}/>
-      <ItemDescription>
-        <ItemInfo>
-          <span className='itemName'>Expresso Tradicional</span>
-          <span className='itemPrice'>R$ 9,90</span>
-        </ItemInfo>
-        <ItemSelection>
-          <SelectItems />
-          <RemoveButton />
-        </ItemSelection>
-      </ItemDescription>
-    </CartItemContainer>
-  )
+interface CoffeeItemProps {
+  coffeeItem: {
+    name: string
+    price: number
+    image: string
+    numberOfItems: number
+  }
+}
+
+export function CartItem({ coffeeItem }: CoffeeItemProps) {
+  const { setNumberOfTotalItems, numberOfTotalItems, cartItems, setCartItems } =
+    useContext(CartContext)
+  const [numberOfItems, setNumberOfItems] = useState(coffeeItem.numberOfItems)
+  function addItem() {
+    setNumberOfItems(numberOfItems + 1)
+    setNumberOfTotalItems(numberOfTotalItems + 1)
+  }
+  function deleteItem() {
+    if (numberOfItems > 0) {
+      setNumberOfItems(numberOfItems - 1)
+      setNumberOfTotalItems(numberOfTotalItems - 1)
+    } else {
+      return 0
+    }
+  }
+  function verifyCartItems(cartItems: Cart[]) {
+    if (cartItems.length > 0) {
+      console.log(numberOfItems)
+      return (
+        <CartItemContainer>
+          <img src={coffeeItem.image} alt="" />
+          <ItemDescription>
+            <ItemInfo>
+              <span className="itemName">{coffeeItem.name}</span>
+              <span className="itemPrice">{coffeeItem.price}</span>
+            </ItemInfo>
+            <ItemSelection>
+              <SelectItems
+                addItem={addItem}
+                deleteItem={deleteItem}
+                numberOfItems={numberOfItems}
+              />
+              <RemoveButton />
+            </ItemSelection>
+          </ItemDescription>
+        </CartItemContainer>
+      )
+    } else {
+      ;<></>
+    }
+  }
+  return verifyCartItems(cartItems)
 }

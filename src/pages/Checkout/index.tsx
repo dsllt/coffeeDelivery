@@ -16,8 +16,11 @@ import {
 } from './styles'
 import { PaymentMethod } from '../../components/PaymentMethod'
 import { CartItem } from '../../components/CartItem'
+import { useContext } from 'react'
+import { CartContext } from '../../contexts/CartContext'
 
 export function Checkout() {
+  const { cartItems } = useContext(CartContext)
   return (
     <CheckoutContainer>
       <OrderForm>
@@ -68,8 +71,9 @@ export function Checkout() {
       <OrderCart>
         <h1>Cafés selecionados</h1>
         <CartItemsContainer>
-          <CartItem />
-          <CartItem />
+          {cartItems.map((item, index) => (
+            <CartItem coffeeItem={item} key={index} />
+          ))}
           <PriceContainer>
             <span>Total de itens</span>
             <span>R$ 29,70</span>
