@@ -20,24 +20,38 @@ interface CoffeeItemProps {
 }
 
 export function CartItem({ coffeeItem }: CoffeeItemProps) {
-  const { setNumberOfTotalItems, numberOfTotalItems, cartItems, setCartItems } =
-    useContext(CartContext)
+  const {
+    cartItems,
+    coffeeItems,
+    addItem,
+    deleteItem,
+    setCartItems,
+    removeItem
+  } = useContext(CartContext)
   const [numberOfItems, setNumberOfItems] = useState(coffeeItem.numberOfItems)
-  function addItem() {
+
+  function handleAddItem() {
+    addItem(coffeeItem.name)
     setNumberOfItems(numberOfItems + 1)
-    setNumberOfTotalItems(numberOfTotalItems + 1)
+    console.log(coffeeItems)
   }
-  function deleteItem() {
-    if (numberOfItems > 0) {
-      setNumberOfItems(numberOfItems - 1)
-      setNumberOfTotalItems(numberOfTotalItems - 1)
-    } else {
-      return 0
-    }
+
+  function handleDeleteItem() {
+    deleteItem(coffeeItem.numberOfItems, coffeeItem.name)
   }
+
+  function handleRemoveItem() {
+    const removedCartItems = cartItems
+    const indexItem = cartItems.findIndex(
+      (item) => item.name === coffeeItem.name,
+    )
+    removedCartItems.splice(indexItem, 1)
+    setCartItems(removedCartItems)
+    removeItem(coffeeItem.name)
+  }
+
   function verifyCartItems(cartItems: Cart[]) {
     if (cartItems.length > 0) {
-      console.log(numberOfItems)
       return (
         <CartItemContainer>
           <img src={coffeeItem.image} alt="" />
@@ -48,11 +62,11 @@ export function CartItem({ coffeeItem }: CoffeeItemProps) {
             </ItemInfo>
             <ItemSelection>
               <SelectItems
-                addItem={addItem}
-                deleteItem={deleteItem}
+                addItem={handleAddItem}
+                deleteItem={handleDeleteItem}
                 numberOfItems={numberOfItems}
               />
-              <RemoveButton />
+              <RemoveButton removeItem={handleRemoveItem} />
             </ItemSelection>
           </ItemDescription>
         </CartItemContainer>

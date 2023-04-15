@@ -8,31 +8,22 @@ import {
 } from './styles'
 import { ShoppingCart } from 'phosphor-react'
 import { SelectItems } from '../SelectItems'
-import { useContext, useState } from 'react'
-import { Cart, CartContext } from '../../contexts/CartContext'
+import { useContext } from 'react'
+import { Cart, CartContext, CoffeeListProps } from '../../contexts/CartContext'
 
-interface CoffeeListProps {
-  coffeeItem: {
-    name: string
-    type: string[]
-    description: string
-    price: number
-    image: string
-  }
-}
+
 
 export function Card({ coffeeItem }: CoffeeListProps) {
-  const { setNumberOfTotalItems, numberOfTotalItems, cartItems, setCartItems } =
+  const { cartItems, setCartItems, addItem, deleteItem } =
     useContext(CartContext)
-  const [numberOfItems, setNumberOfItems] = useState(0)
+
   function handleAddItemToCart() {
     const newItem: Cart = {
       name: coffeeItem.name,
       price: coffeeItem.price,
       image: coffeeItem.image,
-      numberOfItems,
+      numberOfItems: coffeeItem.numberOfItems,
     }
-
     const cartItemsCheck: any = cartItems
 
     if (cartItemsCheck.find((item: Cart) => item.name === newItem.name)) {
@@ -48,18 +39,13 @@ export function Card({ coffeeItem }: CoffeeListProps) {
     }
   }
 
-  function addItem() {
-    setNumberOfItems(numberOfItems + 1)
-    setNumberOfTotalItems(numberOfTotalItems + 1)
+  function handleAddItem() {
+    addItem(coffeeItem.name)
   }
-  function deleteItem() {
-    if (numberOfItems > 0) {
-      setNumberOfItems(numberOfItems - 1)
-      setNumberOfTotalItems(numberOfTotalItems - 1)
-    } else {
-      return 0
-    }
+  function handleDeleteItem() {
+    deleteItem(coffeeItem.numberOfItems, coffeeItem.name)
   }
+
   return (
     <CardContainer>
       <CoffeePicture src={coffeeItem.image} />
@@ -75,9 +61,9 @@ export function Card({ coffeeItem }: CoffeeListProps) {
       <CoffeeCheckout>
         <span>R$ </span> <h1>{coffeeItem.price}</h1>
         <SelectItems
-          addItem={addItem}
-          deleteItem={deleteItem}
-          numberOfItems={numberOfItems}
+          addItem={handleAddItem}
+          deleteItem={handleDeleteItem}
+          numberOfItems={coffeeItem.numberOfItems}
         />
         <CartButton onClick={handleAddItemToCart}>
           <ShoppingCart size={24} weight="fill" />
