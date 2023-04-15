@@ -9,9 +9,11 @@ import {
 import HomeImg from '../../assets/HomeImage.png'
 import { MiniIcon } from '../../components/MiniIcon'
 import { Card } from '../../components/Card'
-import { coffeeList } from '../../assets/coffeeList'
+import { useContext } from 'react'
+import { CartContext } from '../../contexts/CartContext'
 
 export function Home() {
+  const { coffeeItems } = useContext(CartContext)
   return (
     <HomeContainer>
       <HomeHeader>
@@ -47,7 +49,7 @@ export function Home() {
       <CoffeeMenu>
         <h1>Nossos cafés</h1>
         <CoffeeList>
-          {coffeeList.map((item, index) => (
+          {coffeeItems.map((item, index: number) => (
             <Card coffeeItem={item} key={index} />
           ))}
         </CoffeeList>

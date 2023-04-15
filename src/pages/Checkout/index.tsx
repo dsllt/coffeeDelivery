@@ -20,7 +20,7 @@ import { useContext } from 'react'
 import { CartContext } from '../../contexts/CartContext'
 
 export function Checkout() {
-  const { cartItems } = useContext(CartContext)
+  const { coffeeItems } = useContext(CartContext)
   return (
     <CheckoutContainer>
       <OrderForm>
@@ -71,9 +71,11 @@ export function Checkout() {
       <OrderCart>
         <h1>Cafés selecionados</h1>
         <CartItemsContainer>
-          {cartItems.map((item, index) => (
-            <CartItem coffeeItem={item} key={index} />
-          ))}
+          {coffeeItems
+            .filter((item) => item.numberOfItems > 0)
+            .map((item, index) => (
+              <CartItem coffeeItem={item} key={index} />
+            ))}
           <PriceContainer>
             <span>Total de itens</span>
             <span>R$ 29,70</span>

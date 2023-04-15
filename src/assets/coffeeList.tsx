@@ -4,6 +4,7 @@ interface CoffeeListProps {
   description: string
   price: string
   image: string
+  numberOfItems: number
 }
 
 export const coffeeList: CoffeeListProps[] = [
@@ -13,6 +14,7 @@ export const coffeeList: CoffeeListProps[] = [
     description: 'O tradicional café feito com água quente e grãos moídos',
     price: '9,90',
     image: 'src/assets/Expresso.png',
+    numberOfItems: 0,
   },
   {
     name: 'Expresso Americano',
@@ -20,6 +22,7 @@ export const coffeeList: CoffeeListProps[] = [
     description: 'Expresso diluído, menos intenso que o tradicional',
     price: '9,90',
     image: 'src/assets/Americano.png',
+    numberOfItems: 0,
   },
   {
     name: 'Expresso Cremoso',
@@ -27,6 +30,7 @@ export const coffeeList: CoffeeListProps[] = [
     description: 'Café expresso tradicional com espuma cremosa',
     price: '9,90',
     image: 'src/assets/ExpressoCremoso.png',
+    numberOfItems: 0,
   },
   {
     name: 'Expresso Gelado',
@@ -34,6 +38,7 @@ export const coffeeList: CoffeeListProps[] = [
     description: 'Bebida preparada com café expresso e cubos de gelo',
     price: '9,90',
     image: 'src/assets/CafeGelado.png',
+    numberOfItems: 0,
   },
   {
     name: 'Café com Leite',
@@ -41,6 +46,7 @@ export const coffeeList: CoffeeListProps[] = [
     description: 'Meio a meio de expresso tradicional com leite vaporizado',
     price: '9,90',
     image: 'src/assets/CafeComLeite.png',
+    numberOfItems: 0,
   },
   {
     name: 'Latte',
@@ -49,6 +55,7 @@ export const coffeeList: CoffeeListProps[] = [
       'Uma dose de café expresso com o dobro de leite e espuma cremosa',
     price: '9,90',
     image: 'src/assets/Latte.png',
+    numberOfItems: 0,
   },
   {
     name: 'Capuccino',
@@ -57,6 +64,7 @@ export const coffeeList: CoffeeListProps[] = [
       'Bebida com canela feita de doses iguais de café, leite e espuma',
     price: '9,90',
     image: 'src/assets/Capuccino.png',
+    numberOfItems: 0,
   },
   {
     name: 'Macchiato',
@@ -65,6 +73,7 @@ export const coffeeList: CoffeeListProps[] = [
       'Café expresso misturado com um pouco de leite quente e espuma',
     price: '9,90',
     image: 'src/assets/Macchiato.png',
+    numberOfItems: 0,
   },
   {
     name: 'Mocaccino',
@@ -72,6 +81,7 @@ export const coffeeList: CoffeeListProps[] = [
     description: 'Café expresso com calda de chocolate, pouco leite e espuma',
     price: '9,90',
     image: 'src/assets/Mochaccino.png',
+    numberOfItems: 0,
   },
   {
     name: 'Chocolate Quente',
@@ -79,6 +89,7 @@ export const coffeeList: CoffeeListProps[] = [
     description: 'Bebida feita com chocolate dissolvido no leite quente e café',
     price: '9,90',
     image: 'src/assets/ChocolateQuente.png',
+    numberOfItems: 0,
   },
   {
     name: 'Cubano',
@@ -87,6 +98,7 @@ export const coffeeList: CoffeeListProps[] = [
       'Drink gelado de café expresso com rum, creme de leite e hortelã',
     price: '9,90',
     image: 'src/assets/Cubano.png',
+    numberOfItems: 0,
   },
   {
     name: 'Havaiano',
@@ -94,6 +106,7 @@ export const coffeeList: CoffeeListProps[] = [
     description: 'Bebida adocicada preparada com café e leite de coco',
     price: '9,90',
     image: 'src/assets/Havaiano.png',
+    numberOfItems: 0,
   },
   {
     name: 'Árabe',
@@ -101,6 +114,7 @@ export const coffeeList: CoffeeListProps[] = [
     description: 'Bebida preparada com grãos de café árabe e especiarias',
     price: '9,90',
     image: 'src/assets/Árabe.png',
+    numberOfItems: 0,
   },
   {
     name: 'Irlandês',
@@ -108,5 +122,6 @@ export const coffeeList: CoffeeListProps[] = [
     description: 'Bebida a base de café, uísque irlandês, açúcar e chantilly',
     price: '9,90',
     image: 'src/assets/Irlandês.png',
+    numberOfItems: 0,
   },
 ]
