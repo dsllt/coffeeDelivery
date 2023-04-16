@@ -28,7 +28,6 @@ interface CartContextType {
   setNumberOfTotalItems: (items: number) => void
   setCartItems: (items: []) => void
   setCoffeeItems: (items: []) => void
-  dispatch: () => void
   removeItemFromCart: (name: string) => void
   addItem: (name: string) => void
   deleteItem: (numberOfItems: number, name: string) => void
@@ -42,42 +41,76 @@ interface CartContextProviderProps {
 }
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [coffeeItems, setCoffeeItems] = useState(coffeeList)
+  const [coffeeItemsF, setCoffeeItems] = useState(coffeeList)
   const [numberOfItems, setNumberOfItems] = useState(0)
-  const [numberOfTotalItems, setNumberOfTotalItems] = useState(0)
+  const [numberOfTotalItemsT, setNumberOfTotalItems] = useState(0)
   const [cartItems, setCartItems] = useState([])
-  const [cart, dispatch] = useReducer((state: Cart[], action: any) => {
-    console.log(action)
-    console.log(state)
-    return state
-  }, [])
-
-  function addItem(name: string) {
-    const updatedCoffeeItems = coffeeItems
-    // eslint-disable-next-line array-callback-return
-    updatedCoffeeItems.map((item) => {
-      if (item.name === name) {
-        item.numberOfItems += 1
+  const [coffeeItemsState, dispatch] = useReducer(
+    (state: any, action: any) => {
+      if (action.type === 'ADD_ITEM') {
+        return {
+          numberOfTotalItems: state.numberOfTotalItems + 1,
+          coffeeItems: state.coffeeItems.map((item) => {
+            if (item.name === action.name) {
+              return {
+                ...item,
+                numberOfItems: item.numberOfItems + 1,
+              }
+            } else {
+              return item
+            }
+          }),
+        }
       }
+      if (action.type === 'DELETE_ITEM') {
+        let quantifyItems
+        if (state.numberOfTotalItems > 0) {
+          quantifyItems = state.numberOfTotalItems - 1
+        } else {
+          quantifyItems = 0
+        }
+        return {
+          numberOfTotalItems: quantifyItems,
+          coffeeItems: state.coffeeItems.map((item) => {
+            if (item.name === action.name) {
+              if (item.numberOfItems > 0) {
+                return {
+                  ...item,
+                  numberOfItems: item.numberOfItems - 1,
+                }
+              } else {
+                return {
+                  ...item,
+                  numberOfItems: 0,
+                }
+              }
+            } else {
+              return item
+            }
+          }),
+        }
+      }
+
+      return state
+    },
+    { coffeeItems: coffeeList, numberOfTotalItems: 0 },
+  )
+  const { coffeeItems, numberOfTotalItems } = coffeeItemsState
+  function addItem(name: string) {
+    console.log(coffeeItems)
+    dispatch({
+      type: 'ADD_ITEM',
+      name,
     })
-    setCoffeeItems(updatedCoffeeItems)
-    setNumberOfTotalItems(numberOfTotalItems + 1)
+    console.log(coffeeItemsState)
   }
 
   function deleteItem(numberOfItems: number, name: string) {
-    if (numberOfItems > 0) {
-      const updatedCoffeeItems = coffeeItems
-      // eslint-disable-next-line array-callback-return
-      updatedCoffeeItems.map((item) => {
-        if (item.name === name) {
-          item.numberOfItems -= 1
-        }
-      })
-      setCoffeeItems(updatedCoffeeItems)
-      setNumberOfTotalItems(numberOfTotalItems - 1)
-    } else {
-      return 0
-    }
+    dispatch({
+      type: 'DELETE_ITEM',
+      name,
+    })
+    console.log(coffeeItemsState)
   }
 
   function removeItem(name: string) {
@@ -105,7 +138,6 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         setNumberOfTotalItems,
         cartItems,
         setCartItems,
-        dispatch,
         addItem,
         deleteItem,
         removeItem,
