@@ -25,12 +25,10 @@ interface CartContextType {
   cartItems: Cart[]
   coffeeItems: CoffeeListProps[]
   setNumberOfItems: (items: number) => void
-  setNumberOfTotalItems: (items: number) => void
   setCartItems: (items: []) => void
-  setCoffeeItems: (items: []) => void
   removeItemFromCart: (name: string) => void
   addItem: (name: string) => void
-  deleteItem: (numberOfItems: number, name: string) => void
+  deleteItem: (name: string) => void
   removeItem: (name: string) => void
 }
 
@@ -41,9 +39,7 @@ interface CartContextProviderProps {
 }
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [coffeeItemsF, setCoffeeItems] = useState(coffeeList)
   const [numberOfItems, setNumberOfItems] = useState(0)
-  const [numberOfTotalItemsT, setNumberOfTotalItems] = useState(0)
   const [cartItems, setCartItems] = useState([])
   const [coffeeItemsState, dispatch] = useReducer(
     (state: any, action: any) => {
@@ -90,6 +86,25 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
           }),
         }
       }
+      if (action.type === 'REMOVE_ITEM_FROM_CART') {
+        const currentNumberOfItems = state.coffeeItems.filter(
+          (item) => item.name === action.name,
+        )
+        return {
+          numberOfTotalItems:
+            state.numberOfTotalItems - currentNumberOfItems[0].numberOfItems,
+          coffeeItems: state.coffeeItems.map((item) => {
+            if (item.name === action.name) {
+              return {
+                ...item,
+                numberOfItems: 0,
+              }
+            } else {
+              return item
+            }
+          }),
+        }
+      }
 
       return state
     },
@@ -97,45 +112,33 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   )
   const { coffeeItems, numberOfTotalItems } = coffeeItemsState
   function addItem(name: string) {
-    console.log(coffeeItems)
     dispatch({
       type: 'ADD_ITEM',
       name,
     })
-    console.log(coffeeItemsState)
   }
 
-  function deleteItem(numberOfItems: number, name: string) {
+  function deleteItem(name: string) {
     dispatch({
       type: 'DELETE_ITEM',
       name,
     })
-    console.log(coffeeItemsState)
   }
 
   function removeItem(name: string) {
-    const updatedCoffeeItems = coffeeItems
-    let currentNumberOfItems
-    // eslint-disable-next-line array-callback-return
-    updatedCoffeeItems.map((item) => {
-      if (item.name === name) {
-        currentNumberOfItems = item.numberOfItems
-        item.numberOfItems = 0
-      }
+    dispatch({
+      type: 'REMOVE_ITEM_FROM_CART',
+      name,
     })
-    setCoffeeItems(updatedCoffeeItems)
-    setNumberOfTotalItems(numberOfTotalItems - currentNumberOfItems)
   }
 
   return (
     <CartContext.Provider
       value={{
         coffeeItems,
-        setCoffeeItems,
         numberOfItems,
         setNumberOfItems,
         numberOfTotalItems,
-        setNumberOfTotalItems,
         cartItems,
         setCartItems,
         addItem,
