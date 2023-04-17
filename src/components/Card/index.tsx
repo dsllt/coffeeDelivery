@@ -11,11 +11,8 @@ import { SelectItems } from '../SelectItems'
 import { useContext } from 'react'
 import { Cart, CartContext, CoffeeListProps } from '../../contexts/CartContext'
 
-
-
 export function Card({ coffeeItem }: CoffeeListProps) {
-  const { cartItems, setCartItems, addItem, deleteItem } =
-    useContext(CartContext)
+  const { addItem, deleteItem, addItemToCart } = useContext(CartContext)
 
   function handleAddItemToCart() {
     const newItem: Cart = {
@@ -24,26 +21,15 @@ export function Card({ coffeeItem }: CoffeeListProps) {
       image: coffeeItem.image,
       numberOfItems: coffeeItem.numberOfItems,
     }
-    const cartItemsCheck: any = cartItems
 
-    if (cartItemsCheck.find((item: Cart) => item.name === newItem.name)) {
-      cartItemsCheck.map((item: Cart, index: number) => {
-        if (item.name === coffeeItem.name) {
-          cartItemsCheck[index] = newItem
-        }
-        return cartItemsCheck[index]
-      })
-      setCartItems(cartItemsCheck)
-    } else {
-      setCartItems((state: Cart[]) => [...state, newItem])
-    }
+    addItemToCart(newItem.name, newItem)
   }
 
   function handleAddItem() {
     addItem(coffeeItem.name)
   }
   function handleDeleteItem() {
-    deleteItem(coffeeItem.numberOfItems, coffeeItem.name)
+    deleteItem(coffeeItem.name)
   }
 
   return (

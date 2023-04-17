@@ -25,11 +25,11 @@ interface CartContextType {
   cartItems: Cart[]
   coffeeItems: CoffeeListProps[]
   setNumberOfItems: (items: number) => void
-  setCartItems: (items: []) => void
   removeItemFromCart: (name: string) => void
   addItem: (name: string) => void
   deleteItem: (name: string) => void
   removeItem: (name: string) => void
+  addItemToCart: (name: string, newItem: {}) => void
 }
 
 export const CartContext = createContext({} as CartContextType)
@@ -40,11 +40,11 @@ interface CartContextProviderProps {
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [numberOfItems, setNumberOfItems] = useState(0)
-  const [cartItems, setCartItems] = useState([])
   const [coffeeItemsState, dispatch] = useReducer(
     (state: any, action: any) => {
       if (action.type === 'ADD_ITEM') {
         return {
+          ...state,
           numberOfTotalItems: state.numberOfTotalItems + 1,
           coffeeItems: state.coffeeItems.map((item) => {
             if (item.name === action.name) {
@@ -66,6 +66,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
           quantifyItems = 0
         }
         return {
+          ...state,
           numberOfTotalItems: quantifyItems,
           coffeeItems: state.coffeeItems.map((item) => {
             if (item.name === action.name) {
@@ -91,6 +92,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
           (item) => item.name === action.name,
         )
         return {
+          ...state,
           numberOfTotalItems:
             state.numberOfTotalItems - currentNumberOfItems[0].numberOfItems,
           coffeeItems: state.coffeeItems.map((item) => {
@@ -105,12 +107,32 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
           }),
         }
       }
+      if (action.type === 'ADD_ITEM_TO_CART') {
+        if (
+          state.cartItems.find((item: any) => item.name === action.newItem.name)
+        ) {
+          return {
+            ...state,
+            cartItems: state.cartItems.map((item: any, index: number) => {
+              if (item.name === action.name) {
+                state.cartItems[index] = action.newItem
+              }
+              return state.cartItems[index]
+            }),
+          }
+        } else {
+          return {
+            ...state,
+            cartItems: [...state.cartItems, action.newItem],
+          }
+        }
+      }
 
       return state
     },
-    { coffeeItems: coffeeList, numberOfTotalItems: 0 },
+    { coffeeItems: coffeeList, numberOfTotalItems: 0, cartItems: [] },
   )
-  const { coffeeItems, numberOfTotalItems } = coffeeItemsState
+  const { coffeeItems, numberOfTotalItems, cartItems } = coffeeItemsState
   function addItem(name: string) {
     dispatch({
       type: 'ADD_ITEM',
@@ -131,7 +153,14 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       name,
     })
   }
-
+  function addItemToCart(name: string, newItem: {}) {
+    console.log('item to cart')
+    dispatch({
+      type: 'ADD_ITEM_TO_CART',
+      name,
+      newItem,
+    })
+  }
   return (
     <CartContext.Provider
       value={{
@@ -140,10 +169,10 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         setNumberOfItems,
         numberOfTotalItems,
         cartItems,
-        setCartItems,
         addItem,
         deleteItem,
         removeItem,
+        addItemToCart,
       }}
     >
       {children}

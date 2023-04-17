@@ -20,14 +20,8 @@ interface CoffeeItemProps {
 }
 
 export function CartItem({ coffeeItem }: CoffeeItemProps) {
-  const {
-    cartItems,
-    coffeeItems,
-    addItem,
-    deleteItem,
-    setCartItems,
-    removeItem
-  } = useContext(CartContext)
+  const { cartItems, coffeeItems, addItem, deleteItem, removeItem } =
+    useContext(CartContext)
   const [numberOfItems, setNumberOfItems] = useState(coffeeItem.numberOfItems)
 
   function handleAddItem() {
@@ -37,16 +31,10 @@ export function CartItem({ coffeeItem }: CoffeeItemProps) {
   }
 
   function handleDeleteItem() {
-    deleteItem(coffeeItem.numberOfItems, coffeeItem.name)
+    deleteItem(coffeeItem.name)
   }
 
   function handleRemoveItem() {
-    const removedCartItems = cartItems
-    const indexItem = cartItems.findIndex(
-      (item) => item.name === coffeeItem.name,
-    )
-    removedCartItems.splice(indexItem, 1)
-    setCartItems(removedCartItems)
     removeItem(coffeeItem.name)
   }
 
