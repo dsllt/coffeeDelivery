@@ -1,11 +1,11 @@
 import { Bank, CreditCard, Money } from 'phosphor-react'
-import { PaymentMethodContainer } from './styles'
+import {
+  PaymentMethodContainer,
+  PaymentMethodProps,
+  PaymentMethodVariant,
+} from './styles'
 
-interface PaymentMethodProps {
-  variant?: 'credito' | 'debito' | 'dinheiro'
-}
-
-function defineMethod(variant) {
+function defineMethod(variant: PaymentMethodVariant) {
   if (variant === 'credito') {
     return (
       <>

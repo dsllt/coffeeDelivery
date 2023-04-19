@@ -1,6 +1,11 @@
 import styled from 'styled-components'
 
-export const PaymentMethodContainer = styled.button`
+export type PaymentMethodVariant = 'credito' | 'debito' | 'dinheiro'
+export interface PaymentMethodProps {
+  variant: PaymentMethodVariant
+}
+
+export const PaymentMethodContainer = styled.button<PaymentMethodProps>`
   background: ${(props) => props.theme['base-button']};
   border: solid 1px ${(props) => props.theme['base-button']};
   border-radius: 6px;

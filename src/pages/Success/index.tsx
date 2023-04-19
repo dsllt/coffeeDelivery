@@ -1,5 +1,5 @@
 import { DeliveryInfo, OrderConfirmation, SuccessContainer } from './styles'
-import successIlustration from '../../assets/SuccessIllustration.png'
+import successIllustration from '../../assets/SuccessIllustration.png'
 import { MiniIcon } from '../../components/MiniIcon'
 
 export function Success() {
@@ -36,7 +36,7 @@ export function Success() {
             </div>
           </DeliveryInfo>
         </OrderConfirmation>
-        <img src={successIlustration} />
+        <img src={successIllustration} alt="" />
       </div>
     </SuccessContainer>
   )

@@ -8,12 +8,13 @@ import {
 } from './styles'
 
 import { useContext, useState } from 'react'
-import { Cart, CartContext } from '../../contexts/CartContext'
+import { CartContext } from '../../contexts/CartContext'
+import { Cart } from '../../reducers/cartItems'
 
 interface CoffeeItemProps {
   coffeeItem: {
     name: string
-    price: number
+    price: string
     image: string
     numberOfItems: number
   }
@@ -60,7 +61,7 @@ export function CartItem({ coffeeItem }: CoffeeItemProps) {
         </CartItemContainer>
       )
     } else {
-      ;<></>
+      return <></>
     }
   }
   return verifyCartItems(cartItems)

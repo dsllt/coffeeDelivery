@@ -9,10 +9,10 @@ import {
 import { MiniIconContainer, MiniIconVariant } from './styles'
 
 interface MiniIconProps {
-  variant?: MiniIconVariant
+  variant: MiniIconVariant
 }
 
-function defineIcon(variant) {
+function defineIcon(variant: MiniIconVariant) {
   if (variant === 'cart') {
     return <ShoppingCart size={16} weight="fill" />
   } else if (variant === 'timer') {

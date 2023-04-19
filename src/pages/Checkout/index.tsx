@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import { CurrencyDollarSimple, MapPinLine } from 'phosphor-react'
 import {
   AddressForm,

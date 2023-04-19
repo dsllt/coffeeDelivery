@@ -10,6 +10,7 @@
     "lint": "eslint src --ext .ts,.tsx"
   },
   "dependencies": {
+    "eslint-import-resolver-typescript": "^3.5.5",
     "i": "^0.3.7",
     "npm": "^9.6.3",
     "phosphor-icons": "^1.4.2",
