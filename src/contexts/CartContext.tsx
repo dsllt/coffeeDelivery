@@ -1,6 +1,12 @@
 import { ReactNode, createContext, useReducer, useState } from 'react'
 import { coffeeList } from '../assets/coffeeList'
-import { ActionTypes, Cart, cartItemsReducer } from '../reducers/cartItems'
+import { Cart, cartItemsReducer } from '../reducers/cartItems/reducer'
+import {
+  addItemAction,
+  addItemToCartAction,
+  deleteItemAction,
+  removeItemAction,
+} from '../reducers/cartItems/action'
 
 export interface CoffeeListProps {
   coffeeItem: {
@@ -57,32 +63,22 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   const { coffeeItems, numberOfTotalItems, cartItems } = coffeeItemsState
 
   function addItem(name: string) {
-    dispatch({
-      type: ActionTypes.ADD_ITEM,
-      payload: { name },
-    })
+    dispatch(addItemAction(name))
   }
 
   function deleteItem(name: string) {
-    dispatch({
-      type: ActionTypes.DELETE_ITEM,
-      payload: { name },
-    })
+    dispatch(deleteItemAction(name))
   }
 
   function removeItem(name: string) {
-    dispatch({
-      type: ActionTypes.REMOVE_ITEM_FROM_CART,
-      payload: { name },
-    })
+    dispatch(removeItemAction(name))
   }
+
   function addItemToCart(name: string, newItem: Cart) {
     console.log('item to cart')
-    dispatch({
-      type: ActionTypes.ADD_ITEM_TO_CART,
-      payload: { name, newItem },
-    })
+    dispatch(addItemToCartAction(name, newItem))
   }
+
   return (
     <CartContext.Provider
       value={{

@@ -9,7 +9,7 @@ import {
 
 import { useContext, useState } from 'react'
 import { CartContext } from '../../contexts/CartContext'
-import { Cart } from '../../reducers/cartItems'
+import { Cart } from '../../reducers/cartItems/reducer'
 
 interface CoffeeItemProps {
   coffeeItem: {

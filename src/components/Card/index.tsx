@@ -10,7 +10,7 @@ import { ShoppingCart } from 'phosphor-react'
 import { SelectItems } from '../SelectItems'
 import { useContext } from 'react'
 import { CartContext, CoffeeListProps } from '../../contexts/CartContext'
-import { Cart } from '../../reducers/cartItems'
+import { Cart } from '../../reducers/cartItems/reducer'
 
 export function Card({ coffeeItem }: CoffeeListProps) {
   const { addItem, deleteItem, addItemToCart } = useContext(CartContext)
