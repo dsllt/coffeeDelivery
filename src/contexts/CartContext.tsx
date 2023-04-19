@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useReducer, useState } from 'react'
+import {
+  ReactNode,
+  createContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react'
 import { coffeeList } from '../assets/coffeeList'
 import { Cart, cartItemsReducer } from '../reducers/cartItems/reducer'
 import {
@@ -29,11 +35,9 @@ export interface CoffeeItemProps {
 }
 
 interface CartContextType {
-  numberOfItems: number
   numberOfTotalItems: number
   cartItems: Cart[]
   coffeeItems: CoffeeItemProps[]
-  setNumberOfItems: (items: number) => void
   addItem: (name: string) => void
   deleteItem: (name: string) => void
   removeItem: (name: string) => void
@@ -54,11 +58,24 @@ const initialState = {
 }
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [numberOfItems, setNumberOfItems] = useState(0)
   const [coffeeItemsState, dispatch] = useReducer(
     cartItemsReducer,
     initialState,
+    (initialState) => {
+      const storedStateAsJSON = localStorage.getItem(
+        '@coffee-delivery:coffee-items-state-1.0.0',
+      )
+      if (storedStateAsJSON) {
+        return JSON.parse(storedStateAsJSON)
+      }
+      return initialState
+    },
   )
+
+  useEffect(() => {
+    const stateJSON = JSON.stringify(coffeeItemsState)
+    localStorage.setItem('@coffee-delivery:coffee-items-state-1.0.0', stateJSON)
+  }, [coffeeItemsState])
 
   const { coffeeItems, numberOfTotalItems, cartItems } = coffeeItemsState
 
@@ -83,8 +100,6 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     <CartContext.Provider
       value={{
         coffeeItems,
-        numberOfItems,
-        setNumberOfItems,
         numberOfTotalItems,
         cartItems,
         addItem,
