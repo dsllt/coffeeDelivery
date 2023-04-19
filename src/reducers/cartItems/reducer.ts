@@ -1,3 +1,4 @@
+import { produce } from 'immer'
 import { Action, ActionTypes } from './action'
 
 export interface CoffeeItem {
@@ -26,91 +27,78 @@ interface CartItemsState {
 export function cartItemsReducer(state: CartItemsState, action: Action) {
   switch (action.type) {
     case ActionTypes.ADD_ITEM: {
-      return {
-        ...state,
-        numberOfTotalItems: state.numberOfTotalItems + 1,
-        coffeeItems: state.coffeeItems.map((item) => {
-          if (item.name === action.payload.name) {
-            return {
-              ...item,
-              numberOfItems: item.numberOfItems + 1,
-            }
-          } else {
-            return item
-          }
-        }),
+      const itemIndex = state.coffeeItems.findIndex((item) => {
+        return item.name === action.payload.name
+      })
+      if (itemIndex < 0) {
+        return state
       }
+      return produce(state, (draft) => {
+        draft.numberOfTotalItems += 1
+        draft.coffeeItems[itemIndex].numberOfItems += 1
+      })
     }
     case ActionTypes.DELETE_ITEM: {
-      let quantifyItems
+      // Verify total total number of items in the cart
+      let quantifyTotalItems: number
       if (state.numberOfTotalItems > 0) {
-        quantifyItems = state.numberOfTotalItems - 1
+        quantifyTotalItems = state.numberOfTotalItems - 1
       } else {
-        quantifyItems = 0
+        quantifyTotalItems = 0
       }
-      return {
-        ...state,
-        numberOfTotalItems: quantifyItems,
-        coffeeItems: state.coffeeItems.map((item) => {
-          if (item.name === action.payload.name) {
-            if (item.numberOfItems > 0) {
-              return {
-                ...item,
-                numberOfItems: item.numberOfItems - 1,
-              }
-            } else {
-              return {
-                ...item,
-                numberOfItems: 0,
-              }
-            }
-          } else {
-            return item
-          }
-        }),
+      const itemIndex = state.coffeeItems.findIndex((item) => {
+        return item.name === action.payload.name
+      })
+
+      if (itemIndex < 0) {
+        return state
       }
+
+      // Verify total total number of items for the item
+      let itemTotal = state.coffeeItems[itemIndex].numberOfItems
+      if (itemTotal > 0) {
+        itemTotal -= 1
+      } else {
+        itemTotal = 0
+      }
+
+      return produce(state, (draft) => {
+        draft.numberOfTotalItems = quantifyTotalItems
+        draft.coffeeItems[itemIndex].numberOfItems = itemTotal
+      })
     }
     case ActionTypes.REMOVE_ITEM_FROM_CART: {
       const currentNumberOfItems = state.coffeeItems.filter(
         (item) => item.name === action.payload.name,
       )
-      return {
-        ...state,
-        numberOfTotalItems:
-          state.numberOfTotalItems - currentNumberOfItems[0].numberOfItems,
-        coffeeItems: state.coffeeItems.map((item) => {
-          if (item.name === action.payload.name) {
-            return {
-              ...item,
-              numberOfItems: 0,
-            }
-          } else {
-            return item
-          }
-        }),
+      const itemIndex = state.coffeeItems.findIndex((item) => {
+        return item.name === action.payload.name
+      })
+
+      if (itemIndex < 0) {
+        return state
       }
+
+      return produce(state, (draft) => {
+        draft.numberOfTotalItems =
+          draft.numberOfTotalItems - currentNumberOfItems[0].numberOfItems
+        draft.coffeeItems[itemIndex].numberOfItems = 0
+      })
     }
     case ActionTypes.ADD_ITEM_TO_CART: {
-      if (
-        state.cartItems.find(
-          (item: Cart) => item.name === action.payload.newItem.name,
-        )
-      ) {
-        return {
-          ...state,
-          cartItems: state.cartItems.map((item: Cart, index: number) => {
-            if (item.name === action.payload.name) {
-              state.cartItems[index] = action.payload.newItem
-            }
-            return state.cartItems[index]
-          }),
-        }
-      } else {
-        return {
-          ...state,
-          cartItems: [...state.cartItems, action.payload.newItem],
-        }
+      const itemIndex = state.coffeeItems.findIndex((item) => {
+        return item.name === action.payload.name
+      })
+
+      if (itemIndex < 0) {
+        return produce(state, (draft) => {
+          draft.cartItems.push(action.payload.newItem)
+        })
       }
+
+      return produce(state, (draft) => {
+        draft.cartItems[itemIndex] = action.payload.newItem
+      })
     }
     default:
       return state

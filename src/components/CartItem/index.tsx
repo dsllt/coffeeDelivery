@@ -21,14 +21,10 @@ interface CoffeeItemProps {
 }
 
 export function CartItem({ coffeeItem }: CoffeeItemProps) {
-  const { cartItems, coffeeItems, addItem, deleteItem, removeItem } =
-    useContext(CartContext)
-  const [numberOfItems, setNumberOfItems] = useState(coffeeItem.numberOfItems)
+  const { cartItems, addItem, deleteItem, removeItem } = useContext(CartContext)
 
   function handleAddItem() {
     addItem(coffeeItem.name)
-    setNumberOfItems(numberOfItems + 1)
-    console.log(coffeeItems)
   }
 
   function handleDeleteItem() {
@@ -53,7 +49,7 @@ export function CartItem({ coffeeItem }: CoffeeItemProps) {
               <SelectItems
                 addItem={handleAddItem}
                 deleteItem={handleDeleteItem}
-                numberOfItems={numberOfItems}
+                numberOfItems={coffeeItem.numberOfItems}
               />
               <RemoveButton removeItem={handleRemoveItem} />
             </ItemSelection>
