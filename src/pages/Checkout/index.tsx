@@ -17,11 +17,35 @@ import {
 } from './styles'
 import { PaymentMethod } from '../../components/PaymentMethod'
 import { CartItem } from '../../components/CartItem'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../../contexts/CartContext'
 
 export function Checkout() {
-  const { coffeeItems } = useContext(CartContext)
+  const { coffeeItems, cartItems } = useContext(CartContext)
+  const [displayedTotalValue, setDisplayedTotalValue] = useState('')
+  const [
+    displayedTotalValueWithDeliveryFee,
+    setDisplayedTotalValueWithDeliveryFee,
+  ] = useState('')
+
+  const deliveryFee = 3.5
+  useEffect(() => {
+    let totalValue = 0
+    coffeeItems
+      .filter((item) => item.numberOfItems > 0)
+      // eslint-disable-next-line array-callback-return
+      .map((item) => {
+        if (item != null) {
+          const price = parseFloat(item.price.replace(',', '.'))
+          const numberOfCurrentItem = item.numberOfItems
+          totalValue += price * numberOfCurrentItem
+        }
+      })
+    setDisplayedTotalValue(totalValue.toFixed(2).toString().replace('.', ','))
+    setDisplayedTotalValueWithDeliveryFee(
+      (totalValue + deliveryFee).toFixed(2).toString().replace('.', ','),
+    )
+  }, [coffeeItems])
   return (
     <CheckoutContainer>
       <OrderForm>
@@ -79,7 +103,7 @@ export function Checkout() {
             ))}
           <PriceContainer>
             <span>Total de itens</span>
-            <span>R$ 29,70</span>
+            <span>R$ {displayedTotalValue}</span>
           </PriceContainer>
           <PriceContainer>
             <span>Entrega</span>
@@ -87,7 +111,7 @@ export function Checkout() {
           </PriceContainer>
           <TotalContainer>
             <span>Total</span>
-            <span>R$ 33,20</span>
+            <span>R$ {displayedTotalValueWithDeliveryFee}</span>
           </TotalContainer>
           <ConfirmOrderButton>confirmar pedido</ConfirmOrderButton>
         </CartItemsContainer>
