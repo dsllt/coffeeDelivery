@@ -32,7 +32,7 @@ function defineMethod(variant: PaymentMethodVariant) {
 
 export function PaymentMethod({ variant }: PaymentMethodProps) {
   return (
-    <PaymentMethodContainer variant={variant}>
+    <PaymentMethodContainer variant={variant} type="button">
       {defineMethod(variant)}
     </PaymentMethodContainer>
   )

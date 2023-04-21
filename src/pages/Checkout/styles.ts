@@ -5,6 +5,12 @@ export const CheckoutContainer = styled.div`
   gap: 3.2rem;
   margin-top: 4rem;
   margin-bottom: 24rem;
+
+  > form {
+    display: flex;
+    flex-direction: row;
+    gap: 3.2rem;
+  }
 `
 
 export const BaseSideDiv = styled.div`
@@ -20,7 +26,6 @@ export const BaseSideDiv = styled.div`
 export const OrderForm = styled(BaseSideDiv)`
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
 `
 
 export const BaseFormDiv = styled.div`
@@ -46,7 +51,10 @@ export const FormHeader = styled.div`
   }
 `
 
-export const AddressFormContainer = styled(BaseFormDiv)``
+export const AddressFormContainer = styled(BaseFormDiv)`
+  margin-top: 1.5rem;
+  margin-bottom: 1.2rem;
+`
 
 export const AddressFormHeader = styled(FormHeader)`
   color: ${(props) => props.theme['yellow-dark']};
@@ -113,6 +121,10 @@ export const CartItemsContainer = styled(BaseFormDiv)`
   width: 44.8rem;
   border-radius: 6px 44px;
   margin-top: 1.5rem;
+
+  > a {
+    text-decoration: none;
+  }
 `
 
 export const PriceContainer = styled.div`
@@ -158,5 +170,10 @@ export const ConfirmOrderButton = styled.button`
 
   :hover {
     background: ${(props) => props.theme['yellow-dark']};
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
   }
 `

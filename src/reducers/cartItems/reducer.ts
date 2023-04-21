@@ -1,5 +1,6 @@
 import { produce } from 'immer'
 import { Action, ActionTypes } from './action'
+import { AddressFormDataProps } from '../../contexts/CartContext'
 
 export interface CoffeeItem {
   name: string
@@ -22,6 +23,7 @@ interface CartItemsState {
   coffeeItems: CoffeeItem[]
   numberOfItems: number
   numberOfTotalItems: number
+  addressForm: AddressFormDataProps
 }
 
 export function cartItemsReducer(state: CartItemsState, action: Action) {
@@ -38,6 +40,7 @@ export function cartItemsReducer(state: CartItemsState, action: Action) {
         draft.coffeeItems[itemIndex].numberOfItems += 1
       })
     }
+
     case ActionTypes.DELETE_ITEM: {
       // Verify total total number of items in the cart
       let quantifyTotalItems: number
@@ -67,6 +70,7 @@ export function cartItemsReducer(state: CartItemsState, action: Action) {
         draft.coffeeItems[itemIndex].numberOfItems = itemTotal
       })
     }
+
     case ActionTypes.REMOVE_ITEM_FROM_CART: {
       const currentNumberOfItems = state.coffeeItems.filter(
         (item) => item.name === action.payload.name,
@@ -85,6 +89,7 @@ export function cartItemsReducer(state: CartItemsState, action: Action) {
         draft.coffeeItems[itemIndex].numberOfItems = 0
       })
     }
+
     case ActionTypes.ADD_ITEM_TO_CART: {
       const itemIndex = state.coffeeItems.findIndex((item) => {
         return item.name === action.payload.name
@@ -100,6 +105,12 @@ export function cartItemsReducer(state: CartItemsState, action: Action) {
         draft.cartItems[itemIndex] = action.payload.newItem
       })
     }
+
+    case ActionTypes.GET_CART_FORM:
+      return produce(state, (draft) => {
+        draft.addressForm = action.payload.data
+      })
+
     default:
       return state
   }

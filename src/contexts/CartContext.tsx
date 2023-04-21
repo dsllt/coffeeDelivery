@@ -11,6 +11,7 @@ import {
   addItemAction,
   addItemToCartAction,
   deleteItemAction,
+  getCartFormAction,
   removeItemAction,
 } from '../reducers/cartItems/action'
 
@@ -34,14 +35,26 @@ export interface CoffeeItemProps {
   numberOfItems: number
 }
 
+export interface AddressFormDataProps {
+  number: string
+  cep: string
+  address: string
+  neighborhood: string
+  city: string
+  state: string
+  complement?: string | undefined
+}
+
 interface CartContextType {
   numberOfTotalItems: number
   cartItems: Cart[]
   coffeeItems: CoffeeItemProps[]
+  addressForm: AddressFormDataProps
   addItem: (name: string) => void
   deleteItem: (name: string) => void
   removeItem: (name: string) => void
   addItemToCart: (name: string, newItem: Cart) => void
+  getFormData: (data: AddressFormDataProps) => void
 }
 
 export const CartContext = createContext({} as CartContextType)
@@ -55,6 +68,7 @@ const initialState = {
   coffeeItems: coffeeList,
   numberOfItems: 0,
   numberOfTotalItems: 0,
+  addressForm: {},
 }
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
@@ -77,7 +91,8 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     localStorage.setItem('@coffee-delivery:coffee-items-state-1.0.0', stateJSON)
   }, [coffeeItemsState])
 
-  const { coffeeItems, numberOfTotalItems, cartItems } = coffeeItemsState
+  const { coffeeItems, numberOfTotalItems, cartItems, addressForm } =
+    coffeeItemsState
 
   function addItem(name: string) {
     dispatch(addItemAction(name))
@@ -92,8 +107,27 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   }
 
   function addItemToCart(name: string, newItem: Cart) {
-    console.log('item to cart')
     dispatch(addItemToCartAction(name, newItem))
+  }
+
+  function getFormData(data: AddressFormDataProps) {
+    const formData = {
+      number: data.number,
+      cep: data.cep,
+      address: data.address.replace(/\b./g, function (m) {
+        return m.toUpperCase()
+      }),
+      neighborhood: data.neighborhood.replace(/\b./g, function (m) {
+        return m.toUpperCase()
+      }),
+      city: data.city.replace(/\b./g, function (m) {
+        return m.toUpperCase()
+      }),
+      state: data.state.toUpperCase(),
+      complement: data.complement,
+    }
+    dispatch(getCartFormAction(formData))
+    console.log(formData)
   }
 
   return (
@@ -106,6 +140,8 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         deleteItem,
         removeItem,
         addItemToCart,
+        getFormData,
+        addressForm,
       }}
     >
       {children}

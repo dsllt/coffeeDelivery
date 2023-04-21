@@ -1,8 +1,11 @@
 import { DeliveryInfo, OrderConfirmation, SuccessContainer } from './styles'
 import successIllustration from '../../assets/SuccessIllustration.png'
 import { MiniIcon } from '../../components/MiniIcon'
+import { useContext } from 'react'
+import { CartContext } from '../../contexts/CartContext'
 
 export function Success() {
+  const { addressForm } = useContext(CartContext)
   return (
     <SuccessContainer>
       <h1>Uhu! Pedido confirmado</h1>
@@ -15,10 +18,16 @@ export function Success() {
               <span>
                 Entrega em{' '}
                 <span className="boldText">
-                  Rua João Daniel Martinelli, 102
+                  {addressForm.address + ', ' + addressForm.number}
                 </span>
               </span>
-              <span>Farrapos - Porto Alegre, RS</span>
+              <span>
+                {addressForm.neighborhood +
+                  ' - ' +
+                  addressForm.city +
+                  ', ' +
+                  addressForm.state}
+              </span>
             </div>
           </DeliveryInfo>
           <DeliveryInfo>
