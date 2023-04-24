@@ -7,6 +7,7 @@ export enum ActionTypes {
   REMOVE_ITEM_FROM_CART = 'REMOVE_ITEM_FROM_CART',
   ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART',
   GET_CART_FORM = 'GET_CART_FORM',
+  SET_PAYMENT_METHOD = 'SET_PAYMENT_METHOD',
 }
 
 export type Action =
@@ -18,6 +19,10 @@ export type Action =
       payload: { name: string; newItem: Cart }
     }
   | { type: ActionTypes.GET_CART_FORM; payload: { data: AddressFormDataProps } }
+  | {
+      type: ActionTypes.SET_PAYMENT_METHOD
+      payload: { paymentMethod: string }
+    }
 
 export function addItemAction(name: string): Action {
   return {
@@ -51,5 +56,12 @@ export function getCartFormAction(data: AddressFormDataProps): Action {
   return {
     type: ActionTypes.GET_CART_FORM,
     payload: { data },
+  }
+}
+
+export function setPaymentMethod(paymentMethod: string): Action {
+  return {
+    type: ActionTypes.SET_PAYMENT_METHOD,
+    payload: { paymentMethod },
   }
 }

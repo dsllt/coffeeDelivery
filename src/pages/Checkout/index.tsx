@@ -23,9 +23,11 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import zod from 'zod'
 import { NavLink } from 'react-router-dom'
+import { setPaymentMethod } from '../../reducers/cartItems/action'
 
 export function Checkout() {
-  const { coffeeItems, getFormData } = useContext(CartContext)
+  const { coffeeItems, getFormData, selectedPaymentMethod } =
+    useContext(CartContext)
   const [displayedTotalValue, setDisplayedTotalValue] = useState('')
   const [
     displayedTotalValueWithDeliveryFee,
@@ -57,6 +59,11 @@ export function Checkout() {
   function handleSubmitOrder(data: AddressFormData) {
     getFormData(data)
     reset()
+  }
+
+  function handleSelectPaymentMethod(paymentMethod: string) {
+    setPaymentMethod(paymentMethod)
+    console.log(selectedPaymentMethod)
   }
 
   // Verify content to validate button click
@@ -169,7 +176,10 @@ export function Checkout() {
               </div>
             </PaymentFormHeader>
             <PaymentMethodSelection>
-              <PaymentMethod variant="credito" />
+              <PaymentMethod
+                variant="credito"
+                onClick={handleSelectPaymentMethod('Crédito')}
+              />
               <PaymentMethod variant="debito" />
               <PaymentMethod variant="dinheiro" />
             </PaymentMethodSelection>

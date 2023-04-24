@@ -23,6 +23,8 @@ interface CartItemsState {
   coffeeItems: CoffeeItem[]
   numberOfItems: number
   numberOfTotalItems: number
+  totalItems: number
+  selectedPaymentMethod: string
   addressForm: AddressFormDataProps
 }
 
@@ -87,6 +89,7 @@ export function cartItemsReducer(state: CartItemsState, action: Action) {
         draft.numberOfTotalItems =
           draft.numberOfTotalItems - currentNumberOfItems[0].numberOfItems
         draft.coffeeItems[itemIndex].numberOfItems = 0
+        draft.totalItems = draft.numberOfTotalItems
       })
     }
 
@@ -98,17 +101,24 @@ export function cartItemsReducer(state: CartItemsState, action: Action) {
       if (itemIndex < 0) {
         return produce(state, (draft) => {
           draft.cartItems.push(action.payload.newItem)
+          draft.totalItems = state.numberOfTotalItems
         })
       }
 
       return produce(state, (draft) => {
         draft.cartItems[itemIndex] = action.payload.newItem
+        draft.totalItems = state.numberOfTotalItems
       })
     }
 
     case ActionTypes.GET_CART_FORM:
       return produce(state, (draft) => {
         draft.addressForm = action.payload.data
+      })
+
+    case ActionTypes.SET_PAYMENT_METHOD:
+      return produce(state, (draft) => {
+        draft.selectedPaymentMethod = action.payload.paymentMethod
       })
 
     default:

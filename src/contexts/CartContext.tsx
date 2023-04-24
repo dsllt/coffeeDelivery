@@ -50,6 +50,8 @@ interface CartContextType {
   cartItems: Cart[]
   coffeeItems: CoffeeItemProps[]
   addressForm: AddressFormDataProps
+  totalItems: number
+  selectedPaymentMethod: string
   addItem: (name: string) => void
   deleteItem: (name: string) => void
   removeItem: (name: string) => void
@@ -91,8 +93,14 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     localStorage.setItem('@coffee-delivery:coffee-items-state-1.0.0', stateJSON)
   }, [coffeeItemsState])
 
-  const { coffeeItems, numberOfTotalItems, cartItems, addressForm } =
-    coffeeItemsState
+  const {
+    coffeeItems,
+    numberOfTotalItems,
+    cartItems,
+    addressForm,
+    totalItems,
+    selectedPaymentMethod,
+  } = coffeeItemsState
 
   function addItem(name: string) {
     dispatch(addItemAction(name))
@@ -140,8 +148,10 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         deleteItem,
         removeItem,
         addItemToCart,
+        selectedPaymentMethod,
         getFormData,
         addressForm,
+        totalItems,
       }}
     >
       {children}
