@@ -13,6 +13,7 @@ import {
   deleteItemAction,
   getCartFormAction,
   removeItemAction,
+  setPaymentMethodAction,
 } from '../reducers/cartItems/action'
 
 export interface CoffeeListProps {
@@ -57,6 +58,7 @@ interface CartContextType {
   removeItem: (name: string) => void
   addItemToCart: (name: string, newItem: Cart) => void
   getFormData: (data: AddressFormDataProps) => void
+  setPaymentMethod: (paymentMethod: string) => void
 }
 
 export const CartContext = createContext({} as CartContextType)
@@ -118,6 +120,10 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     dispatch(addItemToCartAction(name, newItem))
   }
 
+  function setPaymentMethod(paymentMethod: string) {
+    dispatch(setPaymentMethodAction(paymentMethod))
+  }
+
   function getFormData(data: AddressFormDataProps) {
     const formData = {
       number: data.number,
@@ -152,6 +158,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         getFormData,
         addressForm,
         totalItems,
+        setPaymentMethod,
       }}
     >
       {children}

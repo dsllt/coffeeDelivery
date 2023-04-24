@@ -59,7 +59,7 @@ export function getCartFormAction(data: AddressFormDataProps): Action {
   }
 }
 
-export function setPaymentMethod(paymentMethod: string): Action {
+export function setPaymentMethodAction(paymentMethod: string): Action {
   return {
     type: ActionTypes.SET_PAYMENT_METHOD,
     payload: { paymentMethod },

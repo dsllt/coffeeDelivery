@@ -61,11 +61,6 @@ export function Checkout() {
     reset()
   }
 
-  function handleSelectPaymentMethod(paymentMethod: string) {
-    setPaymentMethod(paymentMethod)
-    console.log(selectedPaymentMethod)
-  }
-
   // Verify content to validate button click
   const cep = watch('cep')
   const address = watch('address')
@@ -176,10 +171,7 @@ export function Checkout() {
               </div>
             </PaymentFormHeader>
             <PaymentMethodSelection>
-              <PaymentMethod
-                variant="credito"
-                onClick={handleSelectPaymentMethod('Crédito')}
-              />
+              <PaymentMethod variant="credito" />
               <PaymentMethod variant="debito" />
               <PaymentMethod variant="dinheiro" />
             </PaymentMethodSelection>

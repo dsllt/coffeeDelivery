@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export type PaymentMethodVariant = 'credito' | 'debito' | 'dinheiro'
 export interface PaymentMethodProps {
   variant: PaymentMethodVariant
+  onClick?: () => void
 }
 
 export const PaymentMethodContainer = styled.button<PaymentMethodProps>`

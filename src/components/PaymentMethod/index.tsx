@@ -4,6 +4,8 @@ import {
   PaymentMethodProps,
   PaymentMethodVariant,
 } from './styles'
+import { useContext } from 'react'
+import { CartContext } from '../../contexts/CartContext'
 
 function defineMethod(variant: PaymentMethodVariant) {
   if (variant === 'credito') {
@@ -31,8 +33,24 @@ function defineMethod(variant: PaymentMethodVariant) {
 }
 
 export function PaymentMethod({ variant }: PaymentMethodProps) {
+  const { selectedPaymentMethod, setPaymentMethod } = useContext(CartContext)
+  function handleSelectPaymentMethod() {
+    let paymentMethod
+    if (variant === 'debito') {
+      paymentMethod = 'Cartão de Débito'
+    } else if (variant === 'credito') {
+      paymentMethod = 'Cartão de Crédito'
+    } else {
+      paymentMethod = 'Dinheiro'
+    }
+    setPaymentMethod(paymentMethod)
+  }
   return (
-    <PaymentMethodContainer variant={variant} type="button">
+    <PaymentMethodContainer
+      variant={variant}
+      type="button"
+      onClick={handleSelectPaymentMethod}
+    >
       {defineMethod(variant)}
     </PaymentMethodContainer>
   )

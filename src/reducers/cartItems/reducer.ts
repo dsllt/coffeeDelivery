@@ -116,10 +116,11 @@ export function cartItemsReducer(state: CartItemsState, action: Action) {
         draft.addressForm = action.payload.data
       })
 
-    case ActionTypes.SET_PAYMENT_METHOD:
+    case ActionTypes.SET_PAYMENT_METHOD: {
       return produce(state, (draft) => {
         draft.selectedPaymentMethod = action.payload.paymentMethod
       })
+    }
 
     default:
       return state

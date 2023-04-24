@@ -5,7 +5,8 @@ import { useContext } from 'react'
 import { CartContext } from '../../contexts/CartContext'
 
 export function Success() {
-  const { addressForm } = useContext(CartContext)
+  const { addressForm, selectedPaymentMethod } = useContext(CartContext)
+  console.log(selectedPaymentMethod)
   return (
     <SuccessContainer>
       <h1>Uhu! Pedido confirmado</h1>
@@ -41,7 +42,7 @@ export function Success() {
             <MiniIcon variant="money" />
             <div>
               <span>Pagamento na entrega</span>
-              <span className="boldText">Cartão de Crédito</span>
+              <span className="boldText">{selectedPaymentMethod}</span>
             </div>
           </DeliveryInfo>
         </OrderConfirmation>
