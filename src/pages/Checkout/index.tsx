@@ -22,17 +22,18 @@ import { CartContext } from '../../contexts/CartContext'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import zod from 'zod'
-import { NavLink } from 'react-router-dom'
-import { setPaymentMethod } from '../../reducers/cartItems/action'
+import { useNavigate } from 'react-router-dom'
 
 export function Checkout() {
-  const { coffeeItems, getFormData, selectedPaymentMethod } =
+  const { coffeeItems, getFormData, resetNumberOfItems } =
     useContext(CartContext)
   const [displayedTotalValue, setDisplayedTotalValue] = useState('')
   const [
     displayedTotalValueWithDeliveryFee,
     setDisplayedTotalValueWithDeliveryFee,
   ] = useState('')
+
+  const navigate = useNavigate()
   const deliveryFee = 3.5
 
   const addressFormValidationSchema = zod.object({
@@ -56,8 +57,11 @@ export function Checkout() {
 
   type AddressFormData = zod.infer<typeof addressFormValidationSchema>
 
-  function handleSubmitOrder(data: AddressFormData) {
+  function handleSubmitOrder(data: any) {
     getFormData(data)
+    resetNumberOfItems()
+
+    navigate('/success')
     reset()
   }
 
@@ -92,7 +96,7 @@ export function Checkout() {
 
   return (
     <CheckoutContainer>
-      <form onSubmit={handleSubmit(handleSubmitOrder)}>
+      <form /* onSubmit={handleSubmit(handleSubmitOrder)} */>
         <OrderForm>
           <h1>Complete seu pedido</h1>
           <AddressFormContainer>
@@ -198,11 +202,13 @@ export function Checkout() {
               <span>Total</span>
               <span>R$ {displayedTotalValueWithDeliveryFee}</span>
             </TotalContainer>
-            <NavLink to={'/success'}>
-              <ConfirmOrderButton type="submit" disabled={isSubmitDisabled}>
-                confirmar pedido
-              </ConfirmOrderButton>
-            </NavLink>
+            <ConfirmOrderButton
+              type="submit"
+              disabled={isSubmitDisabled}
+              onClick={handleSubmit(handleSubmitOrder)}
+            >
+              confirmar pedido
+            </ConfirmOrderButton>
           </CartItemsContainer>
         </OrderCart>
       </form>

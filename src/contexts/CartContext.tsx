@@ -13,6 +13,7 @@ import {
   deleteItemAction,
   getCartFormAction,
   removeItemAction,
+  resetNumberOfItemsAction,
   setPaymentMethodAction,
 } from '../reducers/cartItems/action'
 
@@ -59,6 +60,7 @@ interface CartContextType {
   addItemToCart: (name: string, newItem: Cart) => void
   getFormData: (data: AddressFormDataProps) => void
   setPaymentMethod: (paymentMethod: string) => void
+  resetNumberOfItems: () => void
 }
 
 export const CartContext = createContext({} as CartContextType)
@@ -124,6 +126,10 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     dispatch(setPaymentMethodAction(paymentMethod))
   }
 
+  function resetNumberOfItems() {
+    dispatch(resetNumberOfItemsAction())
+  }
+
   function getFormData(data: AddressFormDataProps) {
     const formData = {
       number: data.number,
@@ -141,7 +147,6 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       complement: data.complement,
     }
     dispatch(getCartFormAction(formData))
-    console.log(formData)
   }
 
   return (
@@ -159,6 +164,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         addressForm,
         totalItems,
         setPaymentMethod,
+        resetNumberOfItems,
       }}
     >
       {children}

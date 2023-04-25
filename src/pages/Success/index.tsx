@@ -6,7 +6,6 @@ import { CartContext } from '../../contexts/CartContext'
 
 export function Success() {
   const { addressForm, selectedPaymentMethod } = useContext(CartContext)
-  console.log(selectedPaymentMethod)
   return (
     <SuccessContainer>
       <h1>Uhu! Pedido confirmado</h1>

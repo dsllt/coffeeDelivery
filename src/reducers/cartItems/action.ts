@@ -8,6 +8,7 @@ export enum ActionTypes {
   ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART',
   GET_CART_FORM = 'GET_CART_FORM',
   SET_PAYMENT_METHOD = 'SET_PAYMENT_METHOD',
+  RESET_NUMBER_OF_ITEMS = 'RESET_NUMBER_OF_ITEMS',
 }
 
 export type Action =
@@ -22,6 +23,9 @@ export type Action =
   | {
       type: ActionTypes.SET_PAYMENT_METHOD
       payload: { paymentMethod: string }
+    }
+  | {
+      type: ActionTypes.RESET_NUMBER_OF_ITEMS
     }
 
 export function addItemAction(name: string): Action {
@@ -63,5 +67,11 @@ export function setPaymentMethodAction(paymentMethod: string): Action {
   return {
     type: ActionTypes.SET_PAYMENT_METHOD,
     payload: { paymentMethod },
+  }
+}
+
+export function resetNumberOfItemsAction(): Action {
+  return {
+    type: ActionTypes.RESET_NUMBER_OF_ITEMS,
   }
 }

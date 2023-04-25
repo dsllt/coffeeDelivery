@@ -1,6 +1,7 @@
 import { produce } from 'immer'
 import { Action, ActionTypes } from './action'
 import { AddressFormDataProps } from '../../contexts/CartContext'
+import { coffeeList } from '../../assets/coffeeList'
 
 export interface CoffeeItem {
   name: string
@@ -116,11 +117,16 @@ export function cartItemsReducer(state: CartItemsState, action: Action) {
         draft.addressForm = action.payload.data
       })
 
-    case ActionTypes.SET_PAYMENT_METHOD: {
+    case ActionTypes.SET_PAYMENT_METHOD:
       return produce(state, (draft) => {
         draft.selectedPaymentMethod = action.payload.paymentMethod
       })
-    }
+
+    case ActionTypes.RESET_NUMBER_OF_ITEMS:
+      return produce(state, (draft) => {
+        draft.coffeeItems = coffeeList
+        draft.numberOfTotalItems = 0
+      })
 
     default:
       return state
