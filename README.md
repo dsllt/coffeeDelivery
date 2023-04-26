@@ -1,4 +1,4 @@
-![Capa](https://user-images.githubusercontent.com/62303172/221061091-01f0f6c5-e590-4a6b-a416-ba261bf104ad.png)
+![Capa](https://user-images.githubusercontent.com/62303172/234701424-49836472-616a-4ae5-994a-239203168e75.png)
 
 # coffeeDelivery
 This application is a shopping cart for a fictional coffee shop. <br>
